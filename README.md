@@ -32,6 +32,10 @@ Of course you will also need at least a set of scan mirrors, a scan lens, a tube
 For educational purposes, it is possible to use a laser pointer and a photo-diode that detects transmitted light through a thin, high contrast, sample such as an EM grid. 
 
 
+## Dependencies
+This code requires the `numpy`, `matplotlib`, and `pyqtgraph`. 
+You will also need to install [DAQmx](https://www.ni.com/en-gb/support/downloads/drivers/download.ni-daqmx.html). 
+The latest version should be fine.
 
 # Also see
 * For basic DAQmx examples and other introductory concepts see [Python_DAQmx_examples](https://github.com/tenss/Python_DAQmx_examples)
