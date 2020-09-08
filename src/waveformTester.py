@@ -57,6 +57,12 @@
  minimalScanner.py
 '''
 
+import nidaqmx
+from nidaqmx.constants import (AcquisitionType,RegenerationMode)
+import numpy as np
+from pyqtgraph.Qt import QtGui, QtCore
+import pyqtgraph as pg
+
 class waveformTester():
 
 
@@ -80,12 +86,13 @@ class waveformTester():
 
 
     # These properties hold information relevant to the plot window
-    hFig = []    # The handle to the figure which shows the data is stored here
-    hAxes = []   # Handle for the main axes
-    hAxesXY = [] # Handle fo the plot of AI1 as a function of AI0
-    hPltDataAO0 = [] # AO0 plot data
-    hPltDataAO1 = [] # AO1 plot data
-    hPltDataXY = []  # AO0 vs AO1 plot data
+    _app = []
+    _win = []
+    _main_plot = [] # Handle for the main axes
+    _phase_plot = [] # Handle fo the plot of AI1 as a function of AI0
+    _plt_ao0 = [] # AO0 plot data
+    _plt_ai0 = [] # AI0 plot data
+    _plt_xy  = [] # AO0 vs AO1 plot data
 
 
 
@@ -127,23 +134,34 @@ class waveformTester():
         # connection to the DAQ and tidy up
         try:
             # Create separate DAQmx tasks for the AI and AO
-            self.ai_task = dabs.ni.daqmx.Task('signalReceiver')
-            self.ao_task = dabs.ni.daqmx.Task('waveformMaker')
+            self.ai_task = nidaqmx.Task('signalReceiver')
+            self.ao_task = nidaqmx.Task('waveformMaker')
 
             #  Set up analog input and output voltage channels, digitizing over +/- 5V
-            self.ai_task.createAIVoltageChan(self.dev_name, [0,1], [], -5, 5)
-            self.ao_task.createAOVoltageChan(self.dev_name, 0)
+            self.ai_task.ai_channels.add_ai_voltage_chan(self.dev_name+'/ai0:1', min_val=-5, max_val=5)
+            self.ao_task.ao_channels.add_ao_voltage_chan(self.dev_name+'/ao0:1', min_val=-5, max_val=5)
 
 
             # * Set up the AI task
 
             # Configure the sampling rate and the number of samples so that we are reading back data at the end of each waveform
-            self.generate_scan_waveform #This will populate the waveforms property
+            self.generate_scan_waveform() #This will populate the waveforms property
+            buffer_size = len(self.waveform)*100
 
-            self.ai_task.cfgSampClkTiming(self.sample_rate,'DAQmx_Val_ContSamps', size(self.waveform,1)*100 )
+            # Set timing and use AO clock for AI
+            self.ai_task.timing.cfg_samp_clk_timing(self.sample_rate, \
+                                source= '/%s/ao/SampleClock' % self.dev_name, \
+                                samps_per_chan=buffer_size, \
+                                sample_mode=AcquisitionType.CONTINUOUS)
+
+            # NOTE: must explicitly set the input buffer so that it's a multiple
+            # of the number of samples per frame. Setting the samples per channel 
+            # (above) does not achieve this.
+            self.ai_task.in_stream.input_buf_size = buffer_size
+
 
             # Call an anonymous function to read from the AI buffer and plot the images once per frame
-            self.ai_task.registerEveryNSamplesEvent(self.read_and_display_data, size(self.waveform,1), false, 'Scaled')
+            self.ai_task.register_every_n_samples_acquired_into_buffer_event(buffer_size, self.read_and_display_data)
 
 
             # * Set up the AO task
@@ -158,13 +176,13 @@ class waveformTester():
 
 
             # Allow sample regeneration (buffer is circular)
-            self.ao_task.set('writeRegenMode', 'DAQmx_Val_AllowRegen')
+            self.ao_task.out_stream.regen_mode = RegenerationMode.ALLOW_REGENERATION
 
             # Write the waveform to the buffer with a 5 second timeout in case it fails
-            self.ao_task.writeAnalogData(self.waveform, 5)
+            self.ao_task.write(self.waveform, timeout=5)
 
             # Configure the AO task to start as soon as the AI task starts
-            self.ao_task.cfgDigEdgeStartTrig(['/',self.dev_name,'/ai/StartTrigger'], 'DAQmx_Val_Rising')
+            self.ao_task..triggers.start_trigger.cfg_dig_edge_start_trig( '/' + self.dev_name + '/ai/StartTrigger' )
         except:
                 #Tidy up if we fail
             self.delete
@@ -172,7 +190,14 @@ class waveformTester():
 
 
     def build_figure_window(self):
-        self.hFig = clf;
+
+        self._app = QtGui.QApplication([])
+        self._win = pg.GraphicsLayoutWidget(show=True)
+        self._main_plot = self._win.addPlot()
+        self._plt_ao0 = self._main_plot(pen='k')
+        self._plt_ai0 = self._main_plot(pen='r')
+
+
         ##set(self.hFig, 'CloseRequestFcn', @self.windowCloseFcn)
 
         #Make an empty axis and fill with blank data
@@ -225,8 +250,8 @@ class waveformTester():
         def stop(self):
             # Stop the AI and then AO tasks
             print('Stopping the scanning AI and AO tasks')
-            self.ai_task.stop;    # Calls DAQmxStopTask
-            self.ao_task.stop;
+            self.ai_task.stop()
+            self.ao_task.stop()
         #close stop
 
 
