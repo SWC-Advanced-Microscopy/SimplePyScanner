@@ -36,6 +36,12 @@ For educational purposes, it is possible to use a laser pointer and a photo-diod
 This code requires the `numpy`, `matplotlib`, and `pyqtgraph`. 
 You will also need to install [DAQmx](https://www.ni.com/en-gb/support/downloads/drivers/download.ni-daqmx.html). 
 The latest version should be fine.
+If you are not already familiar with `pyqtgraph` it's worth trying:
+
+```
+import pyqtgraph.examples
+pyqtgraph.examples.run()
+```
 
 # Also see
 * For basic DAQmx examples and other introductory concepts see [Python_DAQmx_examples](https://github.com/tenss/Python_DAQmx_examples)

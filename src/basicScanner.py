@@ -173,18 +173,22 @@ class basicScanner():
     def setup_plot(self):
         # Set up pyqtgraph plot window
         self._app = QtGui.QApplication([])
-        self._win = pg.GraphicsLayoutWidget(show=True)
+        self._win = QtGui.QMainWindow()
+        self._win.resize(800,800) # Make window 800 by 800 pixels
         pg.setConfigOptions(antialias=True)
-        self._plot = self._win.addPlot(title='Scanner')
-        self._plot.setLimits(yMin=-2, yMax=2)
-        self._curve = self._plot.plot(pen='g')
-        self._plot.setYRange(-self.scan_amplitude-0.1, self.scan_amplitude+0.1, padding=0)
+        self._plot = pg.ImageView()
+        self._win.setCentralWidget(self._plot)
+        self._win.show()
+
+        # Remove the buttons beneath to histogram
+        self._plot.ui.roiBtn.hide()
+        self._plot.ui.menuBtn.hide()
 
 
     def _read_and_display_last_frame(self,tTask, event_type, num_samples, callback_data):
         # Callback function that extract data and update plots
         data = self.h_task_ai.read(number_of_samples_per_channel=self._points_to_plot)
-        self._curve.setData(np.array(data))
+        self._plot.setImage(np.array(data).reshape(self.im_size,self.im_size), autoLevels=False, autoHistogramRange=False)
         return 0
 
 
@@ -192,6 +196,7 @@ class basicScanner():
         if not self._task_created():
             return
 
+        self.setup_plot()
         self.h_task_ao.start()
         self.h_task_ai.start() # Starting this task triggers the AO task
 
@@ -202,6 +207,13 @@ class basicScanner():
 
         self.h_task_ai.stop()
         self.h_task_ao.stop()
+
+    def close_tasks(self):
+        if not self._task_created():
+            return
+
+        self.h_task_ai.close()
+        self.h_task_ao.close()
 
     # House-keeping methods follow
     def _task_created(self):
@@ -216,13 +228,12 @@ class basicScanner():
             return False
 
 
+
 if __name__ == '__main__':
     print('\nRunning demo for basicScanner\n\n')
     SCANNER = basicScanner()
     SCANNER.set_up_tasks()
-    SCANNER.setup_plot()
     SCANNER.start_acquisition()
     input('press return to stop')
     SCANNER.stop_acquisition()
-    SCANNER.h_task_ai.close()
-    SCANNER.h_task_ao.close()
+    SCANNER.close_tasks()
