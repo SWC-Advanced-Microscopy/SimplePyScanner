@@ -45,7 +45,7 @@ pyqtgraph.examples.run()
 
 # Also see
 * For basic DAQmx examples and other introductory concepts see [Python_DAQmx_examples](https://github.com/tenss/Python_DAQmx_examples)
-* [SimpleMScanner]https://github.com/tenss/SimpleMScanner)
+* [SimpleMScanner](https://github.com/tenss/SimpleMScanner)
 * [HelioScan](http://helioscan.github.io/HelioScan/)
 * [SciScan](http://www.scientifica.uk.com/products/scientifica-sciscan)
 * [ScanImage](https://vidriotechnologies.com/)
