@@ -274,7 +274,7 @@ class waveformTester():
             xWaveform = np.linspace(-self.galvo_amplitude, self.galvo_amplitude, self.pixels_per_line) 
 
             # Repeat the X waveform a few times to ease visualisation on-screen
-            xWaveform = np.tile(xWaveform, 1, self.num_reps_per_acq)
+            xWaveform = np.tile(xWaveform, self.num_reps_per_acq)
             self.waveform = xWaveform; # Assign to the waveform property which gets written to the DAQ
 
         elif self.waveform_type == 'sine':
