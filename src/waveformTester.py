@@ -6,30 +6,36 @@
 
 
  Description:
- This is a tutorial class to explore the scan waveform. Parameters are set by editing the properties.
+ This is a tutorial class to explore the scan waveform. Parameters are set by
+ editing the properties. The class drives a scan mirror with a sinusoidal or
+ sawtooth waveform and shows how well the mirror can keep up by plotting the
+ feedback signal as a function of the command signal. The left plot shows a
+ sinusoidal white trace overlaid by a red trace. The white is the command signal
+ and the red the position signal. The right plot shows the position signal as
+ a function of the command signal. Frequency of the waveform is displayed
+ at the command line.
 
 
- Instructions
- * Hook up AO0 to the galvo command (input) voltage terminal.
- * Wire up the rack to copy AO0 to AI0
- * Connect AI1 to the galvo position (output) terminal.
+ Wiring Instructions
+ * Hook up AO0 to the X galvo command (input) voltage terminal.
+ * Wire up the DAQ using a T piece to copy AO0 to AI0
+ * Connect AI1 to the X galvo position (output) terminal.
+
 
  To run from a Python command prompt:
- * cd to code directory
- * from waveformTester import waveformTester
- * Run: "S=waveformTester()" to connect to Dev1. If your device has a different ID
-   you may run: "S=waveformTester('Dev3')" (or whatever is the ID of the device)
+ cd to code directory and start Python then:
+   from waveformTester import waveformTester
+   S=waveformTester()       # To connect to Dev1.
+   S=waveformTester('Dev3') # To connect to a named device ID
+   You can stop acquisition by closing the window.
+
 
  To start from a system command prompt:
+ cd to code directory then:
  python waveformTester.py
+ You can stop acquisition by closing the window or pressing return
 
 
- You will see a sinusoidal black trace overlaid by a red trace. The black is the command signal
- and the red the position signal. The blue sub-plot shows the position signal as a function of
- the command signal. Frequency of the waveform is displayed in the window title and at the
- command line.
-
- You can stop acquisition by closing the window.
 
  NOTE with USB DAQs: you will get error -200877 if the AI buffer is too small.
 
@@ -118,14 +124,13 @@ class waveformTester():
 
         self.start()
         print('Close figure to quit acquisition')
-
+    # close constructor
 
     def __del__(self):
         print('Running destructor')
         #if ~isempty(self.hFig) && isvalid(self.hFig)
         #    self.hFig.delete #Closes the plot window
         self.stop() # Call the method that stops the DAQmx tasks
-
     #close destructor
 
     def connect_to_daq(self):
@@ -188,45 +193,47 @@ class waveformTester():
 
         # Configure the AO task to start as soon as the AI task starts
         self.ao_task.triggers.start_trigger.cfg_dig_edge_start_trig( '/' + self.dev_name + '/ai/StartTrigger' )
-
-        # close connect_to_daq
+    # close connect_to_daq
 
 
     def build_figure_window(self):
         print("Building figure window")
         self._app = QtGui.QApplication([])
         self._win = pg.GraphicsLayoutWidget(show=True)
-        self._main_plot = self._win.addPlot()
-        self._plt_ao0 = self._main_plot.plot(pen='w',name='AO0')
-        self._plt_ai0 = self._main_plot.plot(pen='r',name='AI0')
 
-        self._main_plot.setYRange(-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15)
-        self._main_plot.getAxis('left').setLabel('Voltage (V)')
-        self._main_plot.getAxis('bottom').setLabel('Time (ms)')
+        # Make two subplots
+        self._main_plot = self._win.addPlot() #Waveforms will go here
+        self._phase_plot = self._win.addPlot() #Phase relationship between waveforms
 
 
-
-        self._phase_plot = self._win.addPlot()
+        # Declare the plot items
+        self._main_plot.addLegend()
+        self._plt_command = self._main_plot.plot(pen='w',name='AI0 (command)')
+        self._plt_feedback = self._main_plot.plot(pen='r',name='AI1 (feedback)')
         self._plt_phase = self._phase_plot.plot(pen='b')
 
-        self._phase_plot.getAxis('left').setLabel('AO0')
-        self._phase_plot.getAxis('bottom').setLabel('AI0')
+        # Set some general plot properties such as labels
+        self._main_plot.setYRange(-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15)
+        self._main_plot.getAxis('left').setLabel('Voltage (V)')
+        self._main_plot.getAxis('bottom').setLabel('Time')
+        self._phase_plot.getAxis('left').setLabel('command')
+        self._phase_plot.getAxis('bottom').setLabel('feedback')
 
+        # Set titles
+        self._main_plot.setTitle('Command and feedback waveforms')
+        self._phase_plot.setTitle('Phase plot')
 
-        #self._app.aboutToQuit.connect(self.stop)
+        # Add grids
+        self._main_plot.showGrid(x = True, y = True, alpha = 0.3)
+        self._phase_plot.showGrid(x = True, y = True, alpha = 0.3)
+
+        # Quit if user closes window
         self._app.setQuitOnLastWindowClosed(False)
         self._app.lastWindowClosed.connect(self.__del__)
 
-
-
-        # Axis xlimits
-        ##set(self.hAxes, 'XLim', [0,length(self.waveform)/self.sample_rate*1E3], 'Box', 'on')
-        ##grid on
-
-        # Legend (TODO)
-        #legend('command','galvo position')
-
+        # Display the plot
         self._win.show()
+    #close build_figure_window
 
     def start(self):
         # This method starts acquisition on the AO then the AI task.
@@ -234,7 +241,6 @@ class waveformTester():
         print('Starting the scanning AI and AO tasks')
         self.ao_task.start()
         self.ai_task.start()
-
     #close start
 
 
@@ -280,31 +286,19 @@ class waveformTester():
 
         data = self.ai_task.read(number_of_samples_per_channel=len(self.waveform))
 
+        ## TODO -- update label text to show read number
         ## Updating the window title too often seems to lock the GUI on Win10
-        #self._win.setWindowTitle('Plot update #%d' % self._read_number)
+        #self._win.setWindowTitle()
         self._read_number += 1
-        #print("Callback %d" % self._read_number)
+        # This is not allowed: threading problem
+        #self._main_plot.titleLabel.setText('Plot update #%d' % self._read_number)
 
 
-        self._plt_ao0.setData(data[0])
-        self._plt_ai0.setData(data[1])
+        self._plt_command.setData(data[0])
+        self._plt_feedback.setData(data[1])
         self._plt_phase.setData(data[0],data[1])
 
-        # Read data off the DAQ
-        #inData = readAnalogData(src,src.everyNSamples,'Scaled')
-
-        #timeAxis = np.arange(0,len(inData)-1) / self.sample_rate*1E3;
-        #self.hPltDataAO0.YData = inData[:,1]
-        #self.hPltDataAO0.XData=timeAxis
-        #Scale the feedback signal so it's the same amplitude as the command
-        #scaleFactor = max(inData[:,1]) / max(inData[:,2])
-        #self.hPltDataAO1.YData = inData[:,2]*scaleFactor
-        #self.hPltDataAO1.XData=timeAxis;
-
-        #self.hPltDataXY.YData = inData[:,2]*scaleFactor
-        #self.hPltDataXY.XData = inData[:,1]
-
-        return 0
+        return 0 # The callback must return 0
     #close read_and_display_data
 
 
