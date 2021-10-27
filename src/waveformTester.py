@@ -13,48 +13,53 @@
  * Hook up AO0 to the galvo command (input) voltage terminal.
  * Wire up the rack to copy AO0 to AI0
  * Connect AI1 to the galvo position (output) terminal.
+
+ To run from a Python command prompt:
+ * cd to code directory
+ * from waveformTester import waveformTester
  * Run: "S=waveformTester()" to connect to Dev1. If your device has a different ID
    you may run: "S=waveformTester('Dev3')" (or whatever is the ID of the device)
 
- You will see a sinusoidal black trace overlaid by a red trace. The black is the command signal
- and the red the position signal. The blue sub-plot shows the position signal as a function of 
- the command signal. Frequency of the waveform is displayed in the window title and at the 
- command line. 
+ To start from a system command prompt:
+ python waveformTester.py
 
- You can stop acquisition by closing the window. 
+
+ You will see a sinusoidal black trace overlaid by a red trace. The black is the command signal
+ and the red the position signal. The blue sub-plot shows the position signal as a function of
+ the command signal. Frequency of the waveform is displayed in the window title and at the
+ command line.
+
+ You can stop acquisition by closing the window.
 
  NOTE with USB DAQs: you will get error -200877 if the AI buffer is too small.
 
- 
+
  Things try:
  The scanners have inertia so their ability to follow the command waveform will depend upon
- its shape and frequency. Let's try changing the frequency. Close the figure window (take 
+ its shape and frequency. Let's try changing the frequency. Close the figure window (take
  screenshot first if you want to compare before and after) and edit the "sample_rate" property.
- Increase it to, say 128E3. Re-start the object. Notice the larger lag between the position 
- and command and how this is reflected in the blue X/Y plot "opening up". 
+ Increase it to, say 128E3. Re-start the object. Notice the larger lag between the position
+ and command and how this is reflected in the blue X/Y plot "opening up".
 
  Let's now try having fewer samples per cycle. Stop, set "pixels_per_line" to 128, and restart.
- If your scanners can't keep up, try a larger value. At 128 samplesPerLine and 128 kHz sample 
+ If your scanners can't keep up, try a larger value. At 128 samplesPerLine and 128 kHz sample
  rate the scanner runs at 1 kHz. There will be a big lag now. If your scanners will keep up, you
- can try lines as short as about 32 pixels, which is 4 kHz. Don't push beyond this in case the 
+ can try lines as short as about 32 pixels, which is 4 kHz. Don't push beyond this in case the
  scanners can't cope. Also, don't try such high frequencies with other command waveform shapes.
 
- Go back to 1 kHz and try different amplitudes. See how the lag is the same across amplitudes. 
+ Go back to 1 kHz and try different amplitudes. See how the lag is the same across amplitudes.
 
- Now let's explore AO/AI synchronisation. Set pixels_per_line to 128 and the sample rate to 128E3. 
+ Now let's explore AO/AI synchronisation. Set pixels_per_line to 128 and the sample rate to 128E3.
  All should look good. Try a range of different, but similar, sample rates. e.g. 117E3. Likely you
- will see a warning message and precession of the AI waveforms (this is relative to the AO). 
- You can fix this by setting the AI and AO clocks to be shared as in the polishedScanner class. 
+ will see a warning message and precession of the AI waveforms (this is relative to the AO).
+ You can fix this by setting the AI and AO clocks to be shared as in the polishedScanner class.
 
- Try a sawtooth waveform by modifying the waveform_type property. Start with a frequency below 500 Hz 
+ Try a sawtooth waveform by modifying the waveform_type property. Start with a frequency below 500 Hz
  then try higher frequency (e.g. 2 kHz). How well do the scanners follow the command signal?
 
 
- Requirements
- DAQmx and the Vidrio dabs.ni.daqmx wrapper
-
  See Also:
- minimalScanner.py
+ basicScanner.py
 '''
 
 import nidaqmx
