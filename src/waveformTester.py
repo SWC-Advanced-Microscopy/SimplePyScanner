@@ -216,15 +216,11 @@ class waveformTester():
         self._phase_plot.getAxis('bottom').setLabel('AI0')
 
 
+        #self._app.aboutToQuit.connect(self.stop)
+        self._app.setQuitOnLastWindowClosed(False)
+        self._app.lastWindowClosed.connect(self.__del__)
 
 
-        # Set window title
-        #set(self.hFig,'Name', sprintf('Close figure to stop acquisition - waveform frequency=#0.1f HZ', 1/self.linePeriod) )
-
-
-        ## Plot empty data (may not be needed?)
-        ##self.hPltDataAO0 = plot(self.hAxes, zeros(100,1), '-k') # This plot object holds data from AO0
-        ##self.hPltDataAO1 = plot(self.hAxes, zeros(100,1), '-r') # This plot object holds data from AO1
 
         # Axis xlimits
         ##set(self.hAxes, 'XLim', [0,length(self.waveform)/self.sample_rate*1E3], 'Box', 'on')
