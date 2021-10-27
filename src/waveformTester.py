@@ -156,15 +156,16 @@ class waveformTester():
         # at the end of each waveform
 
         # Set timing and use AO clock for AI
+        buf_size_scale_factor = 5
         self.ai_task.timing.cfg_samp_clk_timing(self.sample_rate, \
                             source= '/%s/ao/SampleClock' % self.dev_name, \
-                            samps_per_chan=l_wav*100, \
+                            samps_per_chan=l_wav*buf_size_scale_factor, \
                             sample_mode=AcquisitionType.CONTINUOUS)
 
         # NOTE: must explicitly set the input buffer so that it's a multiple
         # of the number of samples per frame. Setting the samples per channel 
         # (above) does not achieve this.
-        self.ai_task.in_stream.input_buf_size = l_wav*100
+        self.ai_task.in_stream.input_buf_size = l_wav*buf_size_scale_factor
 
 
         # Call an anonymous function to read from the AI buffer and plot the images once per frame
