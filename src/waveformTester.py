@@ -249,7 +249,7 @@ class waveformTester():
     def start(self):
         # This method starts acquisition on the AO then the AI task. 
         # Acquisition begins immediately since there are no external triggers.
-        print('Starting tasks')
+        print('Starting the scanning AI and AO tasks')
         self.ao_task.start()
         self.ai_task.start()
 
