@@ -81,12 +81,12 @@ class waveformTester():
 
     # These properties are common to both the AO and AI tasks
     dev_name = 'Dev1'
-    sample_rate = 32E3   # The sample rate at which the board runs (Hz)
-    waveform_type='sine' # Waveform shape. Valid values are: 'sine', 'sawtooth'
+    sample_rate = 62E3   # The sample rate at which the board runs (Hz)
+    waveform_type='sawtooth' # Waveform shape. Valid values are: 'sine', 'sawtooth'
 
     # These properties are specific to scanning via the AO lines
-    galvo_amplitude =  3     # Scanner amplitude (defined as peak-to-peak/2)
-    pixels_per_line =  256   # Number pixels per line for a sawtooth waveform (for sine wave this defines wavelength)
+    galvo_amplitude =  4     # Scanner amplitude (defined as peak-to-peak/2)
+    pixels_per_line =  128   # Number pixels per line for a sawtooth waveform (for sine wave this defines wavelength)
     num_reps_per_acq = 10    # How many times to repeat this waveform in one acquisiion
 
     ao_task = []  # The AO task handle will be kept here
@@ -210,14 +210,16 @@ class waveformTester():
         self._main_plot.addLegend()
         self._plt_command = self._main_plot.plot(pen='w',name='AI0 (command)')
         self._plt_feedback = self._main_plot.plot(pen='r',name='AI1 (feedback)')
-        self._plt_phase = self._phase_plot.plot(pen='b')
+        self._plt_phase = self._phase_plot.plot(pen=pg.mkPen('y', width=3))
 
         # Set some general plot properties such as labels
         self._main_plot.setYRange(-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15)
         self._main_plot.getAxis('left').setLabel('Voltage (V)')
         self._main_plot.getAxis('bottom').setLabel('Time')
-        self._phase_plot.getAxis('left').setLabel('command')
-        self._phase_plot.getAxis('bottom').setLabel('feedback')
+        self._phase_plot.getAxis('left').setLabel('feedback')
+        self._phase_plot.getAxis('bottom').setLabel('command')
+        self._phase_plot.setYRange(-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15)
+        self._phase_plot.setXRange(-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15)
 
         # Set titles
         self._main_plot.setTitle('Command and feedback waveforms')
