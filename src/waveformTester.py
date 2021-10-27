@@ -304,8 +304,13 @@ class waveformTester():
     def read_and_display_data(self,tTask, event_type, num_samples, callback_data):
         # This callback method is run each time data have been acquired.
         data = self.ai_task.read(number_of_samples_per_channel=len(self.waveform))
-        self._win.setWindowTitle('Plot update #%d' % self._read_number)
+
+        ## Updating the window title too often seems to lock the GUI on Win10
+        #self._win.setWindowTitle('Plot update #%d' % self._read_number)
         self._read_number += 1
+        #print("Callback %d" % self._read_number)
+
+
         self._plt_ao0.setData(data[0])
         self._plt_ai0.setData(data[1])
         self._plt_phase.setData(data[0],data[1])
