@@ -130,7 +130,7 @@ class waveformTester():
 
     def connect_to_daq(self):
         # First generate scan waveforms, as they properties will affect some variables, such as
-        # buffer sizes. 
+        # buffer sizes.
 
         self.generate_scan_waveform() #This will populate the waveform property
         l_wav = len(self.waveform)
@@ -149,7 +149,7 @@ class waveformTester():
 
         # * Set up the AI task
 
-        # Configure the sampling rate and the number of samples so that we are reading back data 
+        # Configure the sampling rate and the number of samples so that we are reading back data
         # at the end of each waveform
 
         # Set timing and use AO clock for AI
@@ -160,7 +160,7 @@ class waveformTester():
                             sample_mode=AcquisitionType.CONTINUOUS)
 
         # NOTE: must explicitly set the input buffer so that it's a multiple
-        # of the number of samples per frame. Setting the samples per channel 
+        # of the number of samples per frame. Setting the samples per channel
         # (above) does not achieve this.
         self.ai_task.in_stream.input_buf_size = l_wav*buf_size_scale_factor
 
@@ -188,7 +188,7 @@ class waveformTester():
 
         # Configure the AO task to start as soon as the AI task starts
         self.ao_task.triggers.start_trigger.cfg_dig_edge_start_trig( '/' + self.dev_name + '/ai/StartTrigger' )
- 
+
         # close connect_to_daq
 
 
@@ -223,13 +223,13 @@ class waveformTester():
         ##set(self.hAxes, 'XLim', [0,length(self.waveform)/self.sample_rate*1E3], 'Box', 'on')
         ##grid on
 
-        # Legend
+        # Legend (TODO)
         #legend('command','galvo position')
 
         self._win.show()
 
     def start(self):
-        # This method starts acquisition on the AO then the AI task. 
+        # This method starts acquisition on the AO then the AI task.
         # Acquisition begins immediately since there are no external triggers.
         print('Starting the scanning AI and AO tasks')
         self.ao_task.start()
@@ -252,7 +252,7 @@ class waveformTester():
         if self.waveform_type == 'sawtooth':
             print('Generating a sawtooth')
             # The X waveform goes from +galvo_amplitude to -galvo_amplitude over the course of one line:
-            xWaveform = np.linspace(-self.galvo_amplitude, self.galvo_amplitude, self.pixels_per_line) 
+            xWaveform = np.linspace(-self.galvo_amplitude, self.galvo_amplitude, self.pixels_per_line)
 
             # Repeat the X waveform a few times to ease visualisation on-screen
             xWaveform = np.tile(xWaveform, self.num_reps_per_acq)
@@ -289,7 +289,6 @@ class waveformTester():
         self._plt_ao0.setData(data[0])
         self._plt_ai0.setData(data[1])
         self._plt_phase.setData(data[0],data[1])
-
 
         # Read data off the DAQ
         #inData = readAnalogData(src,src.everyNSamples,'Scaled')
