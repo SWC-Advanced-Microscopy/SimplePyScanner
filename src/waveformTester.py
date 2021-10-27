@@ -272,6 +272,12 @@ class waveformTester():
 
     def read_and_display_data(self,tTask, event_type, num_samples, callback_data):
         # This callback method is run each time data have been acquired.
+
+        if self.ai_task.in_stream.avail_samp_per_chan < 1:
+            print('No samples to read in input buffer')
+            return 0
+
+
         data = self.ai_task.read(number_of_samples_per_channel=len(self.waveform))
 
         ## Updating the window title too often seems to lock the GUI on Win10
