@@ -226,24 +226,6 @@ class waveformTester():
         # Legend
         #legend('command','galvo position')
 
-
-        # Start of code for making the blue inset plot
-        ##self.hAxesXY = axes('Parent', self.hFig, 'Position', [0.8,0.1,0.2,0.2], 'NextPlot', 'add')
-        ##self.hPltDataXY = plot(self.hAxesXY, zeros(100,1), '-b.')
-        ##set(self.hAxesXY, 'XTickLabel', [], 'YTickLabel',[], \
-        ##    'YLim',[-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15],'XLim',[-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15])
-
-        #Add "crosshairs" to show x=0 and y=0
-        ##plot(self.hAxesXY, [-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15], [0,0], ':k')
-        ##plot(self.hAxesXY, [0,0], [-self.galvo_amplitude*1.15,self.galvo_amplitude*1.15], ':k')
-
-        ##self.hAxesXY.Color=[0.8,0.8,0.95,0.75]; #blue background  and transparent (4th input, an undocumented MATLAB feature)
-        ##grid on
-        ##box on
-        ##axis square
-        # End of code for making the inset plot
-
-
         self._win.show()
 
     def start(self):
@@ -283,13 +265,6 @@ class waveformTester():
                                                             np.pi*self.num_reps_per_acq, \
                                                             self.pixels_per_line*self.num_reps_per_acq))
 
-        #Report waveform properties
-        if False:
-            print(np.size(self.waveform))
-            print(self.waveform)
-            import matplotlib.pyplot as plt 
-            plt.plot(self.waveform)
-            plt.show()
         print('Generated a waveform of length %d and a line period of %0.3f ms (%0.1f Hz)' % \
                (self.pixels_per_line, self.line_period()*1E3, 1/self.line_period()))
     #close generate_scan_waveform
