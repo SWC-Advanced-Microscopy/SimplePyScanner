@@ -124,11 +124,8 @@ class waveformTester():
         print('Running destructor')
         #if ~isempty(self.hFig) && isvalid(self.hFig)
         #    self.hFig.delete #Closes the plot window
+        self.stop() # Call the method that stops the DAQmx tasks
 
-        ##self.stop() # Call the method that stops the DAQmx tasks
-
-        ##self.ai_task.close()
-        ##self.ao_task.close()
     #close destructor
 
     def connect_to_daq(self):
