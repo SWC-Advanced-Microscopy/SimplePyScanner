@@ -53,13 +53,6 @@
  can try lines as short as about 32 pixels, which is 4 kHz. Don't push beyond this in case the
  scanners can't cope. Also, don't try such high frequencies with other command waveform shapes.
 
- Go back to 1 kHz and try different amplitudes. See how the lag is the same across amplitudes.
-
- Now let's explore AO/AI synchronisation. Set pixels_per_line to 128 and the sample rate to 128E3.
- All should look good. Try a range of different, but similar, sample rates. e.g. 117E3. Likely you
- will see a warning message and precession of the AI waveforms (this is relative to the AO).
- You can fix this by setting the AI and AO clocks to be shared as in the polishedScanner class.
-
  Try a sawtooth waveform by modifying the waveform_type property. Start with a frequency below 500 Hz
  then try higher frequency (e.g. 2 kHz). How well do the scanners follow the command signal?
 
@@ -75,7 +68,6 @@ from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
 
 class waveformTester():
-
 
     # Define properties that we will use for the acquisition.
 
@@ -107,6 +99,9 @@ class waveformTester():
 
     _read_number = 0 # counter for the number of times the DAQmx callback is run
 
+
+
+
     def __init__(self,dev_name=''):
 
         # Optionally replace device name if needed
@@ -126,12 +121,14 @@ class waveformTester():
         print('Close figure to quit acquisition')
     # close constructor
 
+
     def __del__(self):
         print('Running destructor')
         #if ~isempty(self.hFig) && isvalid(self.hFig)
         #    self.hFig.delete #Closes the plot window
         self.stop() # Call the method that stops the DAQmx tasks
     #close destructor
+
 
     def connect_to_daq(self):
         # First generate scan waveforms, as they properties will affect some variables, such as
@@ -238,6 +235,7 @@ class waveformTester():
         self._win.show()
     #close build_figure_window
 
+
     def start(self):
         # This method starts acquisition on the AO then the AI task.
         # Acquisition begins immediately since there are no external triggers.
@@ -312,10 +310,15 @@ class waveformTester():
             LP = len(self.waveform) / (self.sample_rate*self.num_reps_per_acq)
 
         return LP
-    # close line_period
+    #close line_period
+
+#close class waveformTester()
+
+
 
 
 
 if __name__ == '__main__':
     W=waveformTester()
     input('Press return to stop\n')
+
