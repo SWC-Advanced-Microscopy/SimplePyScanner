@@ -45,7 +45,7 @@
  its shape and frequency. Let's try changing the frequency. Close the figure window (take
  screenshot first if you want to compare before and after) and edit the "sample_rate" property.
  Increase it to, say 128E3. Re-start the object. Notice the larger lag between the position
- and command and how this is reflected in the blue X/Y plot "opening up".
+ and command and how this is reflected in the phase (X/Y) plot "opening up".
 
  Let's now try having fewer samples per cycle. Stop, set "pixels_per_line" to 128, and restart.
  If your scanners can't keep up, try a larger value. At 128 samplesPerLine and 128 kHz sample
@@ -146,10 +146,11 @@ class waveformTester():
         self.ai_task = nidaqmx.Task('signalReceiver')
         self.ao_task = nidaqmx.Task('waveformMaker')
 
-        #  Set up analog input and output voltage channels, digitizing over +/- 5V
+        #  Set up analog input and output voltage channels, digitizing over +/- maxV Volts
         # Channel 0 is the recorded copy of the AO signal. Channel 1 is the scanner feedback.
-        self.ai_task.ai_channels.add_ai_voltage_chan(self.dev_name+'/ai0:1', min_val=-5, max_val=5)
-        self.ao_task.ao_channels.add_ao_voltage_chan(self.dev_name+'/ao0', min_val=-5, max_val=5)
+        maxV=10
+        self.ai_task.ai_channels.add_ai_voltage_chan(self.dev_name+'/ai0:1', min_val=-maxV, max_val=maxV)
+        self.ao_task.ao_channels.add_ao_voltage_chan(self.dev_name+'/ao0', min_val=-maxV, max_val=maxV)
 
 
         # * Set up the AI task
