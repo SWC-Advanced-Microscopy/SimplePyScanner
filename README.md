@@ -3,7 +3,6 @@
 Simple Python 2-photon scanning software for demo and teaching purposes.
 
 ## What is this?
-
 A 2-photon microscope is a laser-scanning microscope that builds up an image by sweeping a laser beam across a specimen in a [raster pattern](https://en.wikipedia.org/wiki/Raster_scan). The laser excites fluorescent proteins which emit light of a different wavelength to that with which they were excited. 
 This emitted light is detected using one or more [PMTs](https://en.wikipedia.org/wiki/Photomultiplier). 
 Emitted light and excitation light are of different wavelengths and so can be isolated with [dichroic mirrors](https://en.wikipedia.org/wiki/Dichroic_filter) and optical
@@ -50,6 +49,7 @@ pyqtgraph.examples.run()
 * [SciScan](http://www.scientifica.uk.com/products/scientifica-sciscan)
 * [ScanImage](https://vidriotechnologies.com/)
 * [LSMAQ](https://github.com/danionella/lsmaq) - which is a very similar project but written in MATLAB
+
 
 # Disclaimer
 This software is supplied "as is" and the author(s) are not responsible for hardware damage, blindness, etc, caused by use (or misuse) of this software. 
