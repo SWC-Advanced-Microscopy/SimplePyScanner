@@ -10,7 +10,14 @@ displaying and analyzing 2D or 3D data. The ImageView provides:
   4. Tools for very basic analysis of image data (see ROI and Norm buttons)
 
 
+NOTE:
+It is possible to plot an image with just:
+pg.image(np.random.randn(100,100))
+This example shows a more involved way of doing the same thing.
+See surfacePlotExampleSimple.py
+
 Rob Campbell - SWC 2020
+
 '''
 
 
