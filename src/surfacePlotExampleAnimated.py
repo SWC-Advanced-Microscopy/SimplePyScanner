@@ -13,24 +13,15 @@ from pyqtgraph.Qt import QtCore, QtGui
 import pyqtgraph as pg
 
 
-app = QtGui.QApplication([])
-
-## Create window with ImageView widget
-win = QtGui.QMainWindow()
-win.resize(800,800) # Make window 800 by 800 pixels
-imview = pg.ImageView()
-win.setCentralWidget(imview) # Display ImageView in the window centre
-win.show()
-
-# Remove the buttons beneath to histogram
-imview.ui.roiBtn.hide()
-imview.ui.menuBtn.hide()
-
 ## Create a smoothed random image
 img = pg.gaussianFilter(np.random.normal(size=(200, 200)), (5, 5)) * 20 + 100
 
 ## Display the data
-imview.setImage(img)
+imview = pg.image(img)
+
+# Remove the buttons beneath to histogram
+imview.ui.roiBtn.hide()
+imview.ui.menuBtn.hide()
 
 # So the histogram does not bounce arond like crazy
 imview.ui.graphicsView.autoPixelRange=False 
@@ -48,7 +39,7 @@ def updateData():
     fps2 = 1.0 / (now-updateTime)
     updateTime = now
     fps = fps * 0.9 + fps2 * 0.1
-    win.setWindowTitle('%0.1f fps (close window to stop)' % fps)
+    imview.setWindowTitle('%0.1f fps (close window to stop)' % fps)
 
 
 updateData()
