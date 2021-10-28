@@ -81,12 +81,12 @@ class waveformTester():
 
     # These properties are common to both the AO and AI tasks
     dev_name = 'Dev1'
-    sample_rate = 62E3   # The sample rate at which the board runs (Hz)
+    sample_rate = 32E3   # The sample rate at which the board runs (Hz)
     waveform_type='sawtooth' # Waveform shape. Valid values are: 'sine', 'sawtooth'
 
     # These properties are specific to scanning via the AO lines
     galvo_amplitude =  4     # Scanner amplitude (defined as peak-to-peak/2)
-    pixels_per_line =  128   # Number pixels per line for a sawtooth waveform (for sine wave this defines wavelength)
+    pixels_per_line =  256   # Number pixels per line for a sawtooth waveform (for sine wave this defines wavelength)
     num_reps_per_acq = 10    # How many times to repeat this waveform in one acquisiion
 
     ao_task = []  # The AO task handle will be kept here
