@@ -15,6 +15,14 @@
   You may run this example by changing to the directory containing the file and
   running: python basicScanner.py
 
+  To run interactively at the Python prompt you can do:
+  import basicScanner
+  b = basicScanner.basicScanner()
+  b.start_acquisition()
+  b.set_amplitude(4)
+  b.set_amplitude(1)
+  b.stop_acquisition()
+
 '''
 
 import nidaqmx
@@ -54,10 +62,12 @@ class basicScanner():
     _plot = []              # plot object stored here
 
 
-    def __init__(self, autoconnect=False):
+    def __init__(self, autoconnect=True):
 
         if autoconnect:
             self.set_up_tasks()
+            self.setup_plot()
+
 
 
 
@@ -164,6 +174,7 @@ class basicScanner():
              (self.im_size, self.im_size, self.sample_rate/self._points_to_plot,self._points_to_plot) );
 
 
+
     def setup_plot(self):
         # Set up pyqtgraph plot window
         self._app = QtGui.QApplication([])
@@ -191,7 +202,6 @@ class basicScanner():
         if not self._task_created():
             return
 
-        self.setup_plot()
         self.h_task_ao.start()
         self.h_task_ai.start() # Starting this task triggers the AO task
 
@@ -210,6 +220,16 @@ class basicScanner():
         self.h_task_ai.close()
         self.h_task_ao.close()
 
+
+    def set_amplitude(self,amplitude):
+        self.stop_acquisition()
+        self.scan_amplitude=amplitude
+        self.generateScanWaveforms()
+        self.h_task_ao.write(self.waveforms, timeout=2)
+        self.start_acquisition()
+
+
+
     # House-keeping methods follow
     def _task_created(self):
         '''
@@ -227,8 +247,6 @@ class basicScanner():
 if __name__ == '__main__':
     print('\nRunning demo for basicScanner\n\n')
     SCANNER = basicScanner()
-    SCANNER.set_up_tasks()
-    SCANNER.start_acquisition()
     input('press return to stop')
     SCANNER.stop_acquisition()
     SCANNER.close_tasks()
