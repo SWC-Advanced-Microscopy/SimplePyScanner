@@ -1,5 +1,5 @@
 '''
- Exercise in which a DAQ board will generate  hardware-timed continuous analog output from two 
+ Exercise in which a DAQ board will generate hardware-timed continuous analog output from two 
  channels without using a callback function
 
  scan_waveform_output
@@ -117,7 +117,7 @@ class scan_waveform_output():
 
 
 
-        # * Write the waveform to the buffer with a 5 second timeout in case it fails
+        # * Write the waveform to the buffer with a 2 second timeout in case it fails
         #   Writes doubles using DAQmxWriteAnalogF64
         #   http://zone.ni.com/reference/en-XX/help/370471AG-01/daqmxcfunc/daqmxwriteanalogf64/
         self.h_task.write(, timeout=2). ###EDIT
