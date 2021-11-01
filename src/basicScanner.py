@@ -182,7 +182,7 @@ class basicScanner():
     def _read_and_display_last_frame(self,tTask, event_type, num_samples, callback_data):
         # Callback function that extract data and update plots
         data = self.h_task_ai.read(number_of_samples_per_channel=self._points_to_plot)
-        _im = np.array(data).reshape(self.im_size,self.im_size;
+        _im = np.array(data).reshape(self.im_size,self.im_size)
         self._plot.setImage(np.transpose(_im)), autoLevels=False, autoHistogramRange=False)
         return 0
 
