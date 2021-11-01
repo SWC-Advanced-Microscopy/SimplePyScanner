@@ -312,7 +312,7 @@ class waveformTester():
         return LP
     #close line_period
 
-#close class waveformTester()
+#close class waveformTester
 
 
 
