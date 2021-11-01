@@ -133,7 +133,7 @@ class basicScanner():
         Set up the triggering
         '''
         # The AO task should start as soon as the AI task starts.
-        #   http://zone.ni.com/reference/en-XX/help/370471AE-01/daqmxcfunc/daqmxcfgdigedgestarttrig/
+        #   http://zone.ni.com/reference/en-XX/help/370471AE-01/oqmxcfunc/daqmxcfgdigedgestarttrig/
         self.h_task_ao.triggers.start_trigger.cfg_dig_edge_start_trig( '/' + self.dev_name + '/ai/StartTrigger' )
 
         # Note that now the AO task must be started before the AI task in order for the synchronisation to work
@@ -182,7 +182,8 @@ class basicScanner():
     def _read_and_display_last_frame(self,tTask, event_type, num_samples, callback_data):
         # Callback function that extract data and update plots
         data = self.h_task_ai.read(number_of_samples_per_channel=self._points_to_plot)
-        self._plot.setImage(np.array(data).reshape(self.im_size,self.im_size), autoLevels=False, autoHistogramRange=False)
+        _im = np.array(data).reshape(self.im_size,self.im_size;
+        self._plot.setImage(np.transpose(_im)), autoLevels=False, autoHistogramRange=False)
         return 0
 
 
