@@ -62,10 +62,11 @@ class image_scanner():
     _plot = []              # plot object stored here
 
 
-    def __init__(self, autoconnect=False):
+    def __init__(self, autoconnect=True):
 
         if autoconnect:
             self.set_up_tasks()
+            self.setup_plot()
 
 
 
@@ -220,7 +221,6 @@ class image_scanner():
         if not self._task_created():
             return
 
-        self.setup_plot()
         self.h_task_ao.start()
         self.h_task_ai.start() # Starting this task triggers the AO task
 
@@ -260,7 +260,6 @@ class image_scanner():
 if __name__ == '__main__':
     print('\nRunning demo for image_scanner\n\n')
     SCANNER = image_scanner()
-    SCANNER.set_up_tasks()
     SCANNER.start_acquisition()
     input('press return to stop')
     SCANNER.stop_acquisition()
