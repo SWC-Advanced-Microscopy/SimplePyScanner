@@ -100,7 +100,7 @@ class scan_waveform_output():
         #   C equivalent - DAQmxCfgSampClkTiming
         #   http://zone.ni.com/reference/en-XX/help/370471AE-01/daqmxcfunc/daqmxcfgsampclktiming/
         #   https://nidaqmx-python.readthedocs.io/en/latest/timing.html
-        self.num_samples_per_channel = len(self.waveform)  # The number of samples to be stored in the buffer per channel
+        self.num_samples_per_channel = len(self.daq_waveforms)  # The number of samples to be stored in the buffer per channel
         buffer_length = self.num_samples_per_channel*4 # TODO -- IS THIS NEEDED??
         self.h_task.timing.cfg_samp_clk_timing(rate = self.sample_rate, \
                                                samps_per_chan = buffer_length, \
