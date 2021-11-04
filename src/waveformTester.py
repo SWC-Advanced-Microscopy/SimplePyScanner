@@ -74,7 +74,7 @@ class waveformTester():
     # These properties are common to both the AO and AI tasks
     dev_name = 'Dev1'
     sample_rate = 32E3   # The sample rate at which the board runs (Hz)
-    waveform_type='sawtooth' # Waveform shape. Valid values are: 'sine', 'sawtooth'
+    waveform_type='sine' # Waveform shape. Valid values are: 'sine', 'sawtooth'
 
     # These properties are specific to scanning via the AO lines
     galvo_amplitude =  4     # Scanner amplitude (defined as peak-to-peak/2)
