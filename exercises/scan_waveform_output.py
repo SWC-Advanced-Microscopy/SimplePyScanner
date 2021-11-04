@@ -129,8 +129,8 @@ class scan_waveform_output():
 
 
 if __name__ == '__main__':
-    print('\nRunning demo for hardwareContinuousVoltageNoCallback_twoChannels\n\n')
-    AO = hardwareContinuousVoltageNoCallback_twoChannels()
+    print('\nRunning demo for scan_waveform_output\n\n')
+    AO = scan_waveform_output()
     AO.create_task()
     AO.h_task.start()
     input('press return to stop')
