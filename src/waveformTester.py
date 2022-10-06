@@ -273,7 +273,7 @@ class waveformTester():
                                                             self.pixels_per_line*self.num_reps_per_acq))
 
         print('Generated a waveform of length %d and a line period of %0.3f ms (%0.1f Hz)' % \
-               (self.pixels_per_line, self.line_period()*1E3, 1/(2*self.line_period()) )
+               (self.pixels_per_line, self.line_period()*1E3, 1/(2*self.line_period()) ) )
     #close generate_scan_waveform
 
 
