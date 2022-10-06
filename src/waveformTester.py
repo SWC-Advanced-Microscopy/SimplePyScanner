@@ -88,7 +88,7 @@ class waveformTester():
     ai_task = [] #The AI task handle will be kept here
 
 
-    # These properties hold information relevant to the plot window
+    # These attributes hold information relevant to the plot window
     _app = []
     _win = []
     _main_plot = [] # Handle for the main axes
@@ -134,7 +134,7 @@ class waveformTester():
         # First generate scan waveforms, as they properties will affect some variables, such as
         # buffer sizes.
 
-        self.generate_scan_waveform() #This will populate the waveform property
+        self.generate_scan_waveform() #This will populate the waveform attribute
         l_wav = len(self.waveform)
 
         print('Connecting to DAQ')
@@ -263,7 +263,7 @@ class waveformTester():
 
             # Repeat the X waveform a few times to ease visualisation on-screen
             xWaveform = np.tile(xWaveform, self.num_reps_per_acq)
-            self.waveform = xWaveform; # Assign to the waveform property which gets written to the DAQ
+            self.waveform = xWaveform; # Assign to the waveform attribute which gets written to the DAQ
 
         elif self.waveform_type == 'sine':
             print('Generating a sine wave')
