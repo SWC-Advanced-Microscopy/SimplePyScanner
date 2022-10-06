@@ -120,7 +120,7 @@ class scan_waveform_output():
         # * Write the waveform to the buffer with a 2 second timeout in case it fails
         #   Writes doubles using DAQmxWriteAnalogF64
         #   http://zone.ni.com/reference/en-XX/help/370471AG-01/daqmxcfunc/daqmxwriteanalogf64/
-        self.h_task.write(, timeout=2). ###EDIT
+        self.h_task.write(, timeout=2) ###EDIT
     #close create_task
 
 
