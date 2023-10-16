@@ -44,11 +44,10 @@ pyqtgraph.examples.run()
 
 # Also see
 * For basic DAQmx examples and other introductory concepts see [Python_DAQmx_examples](https://github.com/tenss/Python_DAQmx_examples)
-* [SimpleMScanner](https://github.com/tenss/SimpleMScanner)
-* [HelioScan](http://helioscan.github.io/HelioScan/)
-* [SciScan](http://www.scientifica.uk.com/products/scientifica-sciscan)
-* [ScanImage](https://vidriotechnologies.com/)
-* [LSMAQ](https://github.com/danionella/lsmaq) - which is a very similar project but written in MATLAB
+* [SimpleMScanner](https://github.com/tenss/SimpleMScanner) is the MATLAB equivalent of this repo. The scanning software is more advanced.
+* [LSMAQ](https://github.com/danionella/lsmaq) - A similar project to SimpleMScanner but more mature. 
+* [ScanImage](https://vidriotechnologies.com/) - Commercial scanning based software written in MATLAB.
+* [HelioScan](http://helioscan.github.io/HelioScan/) - Free scanning software written in LabVIEW.
 
 
 # Disclaimer
