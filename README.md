@@ -24,7 +24,7 @@ SimpleMScanner is a teaching aid, not a complete application.
 
 ## What you will need
 You should first be familiar with NI DAQmx in Python. 
-For more details see [the TENSS Python DAQmx examples](https://github.com/tenss/Python_DAQmx_examples).
+For more details see [these Python DAQmx examples](https://github.com/SWC-Advanced-Microscopy/Python_DAQmx_examples).
 You will also need an NI device to coordinate scanning and data acquisition. 
 The present code been tested on NI USB-6361 devices but should work on a range of hardware.
 Of course you will also need at least a set of scan mirrors, a scan lens, a tube lens, an objective, some form of detector and a laser. 
@@ -32,7 +32,7 @@ For educational purposes, it is possible to use a laser pointer and a photo-diod
 
 
 ## Dependencies
-This code requires the `numpy`, `matplotlib`, and `pyqtgraph`. 
+This code requires the libraries `nidaqmax`, `numpy`, `matplotlib`, and `pyqtgraph`. 
 You will also need to install [DAQmx](https://www.ni.com/en-gb/support/downloads/drivers/download.ni-daqmx.html). 
 The latest version should be fine.
 If you are not already familiar with `pyqtgraph` it's worth trying:
