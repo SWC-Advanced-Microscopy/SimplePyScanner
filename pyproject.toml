@@ -1,0 +1,20 @@
+[project]
+name = "simplepyscanner"
+version = "0.1.0"
+description = "Simple Python 2-photon scanning software for demo and teaching purposes."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "nidaqmx",
+    "numpy",
+    "matplotlib",
+    "pyqtgraph",
+    "PyQt6",
+    "jupyterlab",
+]
+
+[tool.uv]
+# The repo is a collection of runnable scripts and notebooks, not an
+# importable package, so uv only manages the virtual environment.
+package = false

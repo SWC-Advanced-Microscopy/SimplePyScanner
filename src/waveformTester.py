@@ -23,7 +23,7 @@
 
 
  To run from a Python command prompt:
- cd to code directory and start Python then:
+ cd to code directory and start Python with "uv run python" then:
    from waveformTester import waveformTester
    S=waveformTester()       # To connect to Dev1.
    S=waveformTester('Dev3') # To connect to a named device ID
@@ -32,7 +32,7 @@
 
  To start from a system command prompt:
  cd to code directory then:
- python waveformTester.py
+ uv run waveformTester.py
  You can stop acquisition by closing the window or pressing return
 
 
@@ -64,7 +64,7 @@
 import nidaqmx
 from nidaqmx.constants import (AcquisitionType,RegenerationMode)
 import numpy as np
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtCore, QtWidgets
 import pyqtgraph as pg
 
 class waveformTester():
@@ -196,7 +196,7 @@ class waveformTester():
 
     def build_figure_window(self):
         print("Building figure window")
-        self._app = QtGui.QApplication([])
+        self._app = QtWidgets.QApplication([])
         self._win = pg.GraphicsLayoutWidget(show=True)
 
         # Make two subplots

@@ -22,7 +22,7 @@
 
 
  Run the code at the command line thus:
- python scan_waveform_output
+ uv run scan_waveform_output.py
 
 
 

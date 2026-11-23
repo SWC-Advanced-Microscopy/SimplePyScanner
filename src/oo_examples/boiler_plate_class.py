@@ -12,7 +12,7 @@ class boiler_plate_class():
         Usage
         You may call this class from the system command line. If so, an instance of the class
         is created then destroyed. e.g. run:
-        $ python boiler_plate_class.py
+        $ uv run boiler_plate_class.py
 
         More usefully, however, call this from within Python to intercact with an instance
         of the class. For instance:

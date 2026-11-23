@@ -31,15 +31,37 @@ Of course you will also need at least a set of scan mirrors, a scan lens, a tube
 For educational purposes, it is possible to use a laser pointer and a photo-diode that detects transmitted light through a thin, high contrast, sample such as an EM grid. 
 
 
-## Dependencies
-This code requires the libraries `nidaqmax`, `numpy`, `matplotlib`, and `pyqtgraph`. 
-You will also need to install [DAQmx](https://www.ni.com/en-gb/support/downloads/drivers/download.ni-daqmx.html). 
+## Installation
+The Python environment is managed with [uv](https://docs.astral.sh/uv/getting-started/installation/). 
+Once uv is installed, clone this repository and set up the environment from the repository root:
+
+```
+git clone https://github.com/SWC-Advanced-Microscopy/SimplePyScanner.git
+cd SimplePyScanner
+uv sync
+```
+
+This creates a `.venv` folder containing Python and all the required libraries (`nidaqmx`, `numpy`, `matplotlib`, `pyqtgraph`, `PyQt6` and `jupyterlab`). 
+You will also need to install the [NI-DAQmx driver](https://www.ni.com/en-gb/support/downloads/drivers/download.ni-daqmx.html) separately. 
 The latest version should be fine.
+
+## Running the code
+Use `uv run` instead of `python` to run a script. 
+uv will use the project environment automatically (and create it first if you haven't run `uv sync`). 
+For example:
+
+```
+cd exercises
+uv run scan_waveform_output.py
+uv run image_scanner.py
+```
+
+To start an interactive Python prompt in the environment run `uv run python`, and to work on the notebook exercises run `uv run jupyter lab`.
+
 If you are not already familiar with `pyqtgraph` it's worth trying:
 
 ```
-import pyqtgraph.examples
-pyqtgraph.examples.run()
+uv run python -m pyqtgraph.examples
 ```
 
 # Also see

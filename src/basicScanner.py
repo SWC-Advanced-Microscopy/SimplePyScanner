@@ -13,9 +13,9 @@
   - AI0 to your PMT or photodiode
  
   You may run this example by changing to the directory containing the file and
-  running: python basicScanner.py
+  running: uv run basicScanner.py
 
-  To run interactively at the Python prompt you can do:
+  To run interactively, start Python with "uv run python" then do:
   import basicScanner
   b = basicScanner.basicScanner()
   b.start_acquisition()
@@ -28,7 +28,7 @@
 import nidaqmx
 from nidaqmx.constants import (AcquisitionType,RegenerationMode)
 import numpy as np
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtCore, QtWidgets
 import pyqtgraph as pg
 
 class basicScanner():
@@ -177,8 +177,8 @@ class basicScanner():
 
     def setup_plot(self):
         # Set up pyqtgraph plot window
-        self._app = QtGui.QApplication([])
-        self._win = QtGui.QMainWindow()
+        self._app = QtWidgets.QApplication([])
+        self._win = QtWidgets.QMainWindow()
         self._win.resize(800,800) # Make window 800 by 800 pixels
         pg.setConfigOptions(antialias=True)
         self._plot = pg.ImageView()

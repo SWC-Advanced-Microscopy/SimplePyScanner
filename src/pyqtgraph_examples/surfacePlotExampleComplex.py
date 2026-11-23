@@ -23,14 +23,14 @@ Rob Campbell - SWC 2020
 
 
 import numpy as np
-from pyqtgraph.Qt import QtCore, QtGui
+from pyqtgraph.Qt import QtCore, QtWidgets
 import pyqtgraph as pg
 
 
-app = QtGui.QApplication([])
+app = QtWidgets.QApplication([])
 
 ## Create window with ImageView widget
-win = QtGui.QMainWindow()
+win = QtWidgets.QMainWindow()
 win.resize(800,800) # Make window 800 by 800 pixels
 imview = pg.ImageView()
 win.setCentralWidget(imview) # Display ImageView in the window centre
@@ -48,4 +48,4 @@ imview.setImage(img)
 if __name__ == '__main__':
     import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QApplication.instance().exec_()
+        QtWidgets.QApplication.instance().exec()

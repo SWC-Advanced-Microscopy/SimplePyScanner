@@ -8,8 +8,10 @@ Rob Campbell - SWC 2020
 '''
 
 
+from time import perf_counter
+
 import numpy as np
-from pyqtgraph.Qt import QtCore, QtGui
+from pyqtgraph.Qt import QtCore, QtWidgets
 import pyqtgraph as pg
 
 
@@ -27,7 +29,7 @@ imview.ui.menuBtn.hide()
 imview.ui.graphicsView.autoPixelRange=False 
 imview.ui.histogram.autoPixelRange=False 
 
-updateTime = pg.ptime.time()
+updateTime = perf_counter()
 fps = 0
 def updateData():
     global updateTime, fps
@@ -35,7 +37,7 @@ def updateData():
     img = pg.gaussianFilter(np.random.normal(size=(200, 200)), (5, 5)) * 20 + 100
     imview.setImage(img, autoLevels=False, autoHistogramRange=False) # Display new image and stop range from jumping around
     QtCore.QTimer.singleShot(1, updateData) # Recursive call here
-    now = pg.ptime.time()
+    now = perf_counter()
     fps2 = 1.0 / (now-updateTime)
     updateTime = now
     fps = fps * 0.9 + fps2 * 0.1
@@ -48,4 +50,4 @@ updateData()
 if __name__ == '__main__':
     import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QApplication.instance().exec_()
+        QtWidgets.QApplication.instance().exec()

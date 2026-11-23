@@ -19,7 +19,7 @@
   - HINT -- if you get stuck look at waveformTester.py and your previous exercises
 
   Run by changing to the directory containing the file and calling: 
-  python image_scanner.py
+  uv run image_scanner.py
 
 '''
 
@@ -27,7 +27,7 @@
 import nidaqmx
 from nidaqmx.constants import (AcquisitionType,RegenerationMode)
 import numpy as np
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtCore, QtWidgets
 import pyqtgraph as pg
 
 class image_scanner():
@@ -191,8 +191,8 @@ class image_scanner():
 
     def setup_plot(self):
         # Set up pyqtgraph plot window. Nothing to edit here. 
-        self._app = QtGui.QApplication([])
-        self._win = QtGui.QMainWindow()
+        self._app = QtWidgets.QApplication([])
+        self._win = QtWidgets.QMainWindow()
         self._win.resize(800,800) # Make window 800 by 800 pixels
         pg.setConfigOptions(antialias=True)
         self._plot = pg.ImageView()
